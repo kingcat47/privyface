@@ -1,0 +1,57 @@
+.scanProgress {
+  width: 100%;
+  max-width: 600px;
+  padding: 24px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.stageLabel {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.progressPercent {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.progressBarContainer {
+  width: 100%;
+  height: 8px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.progressBar {
+  height: 100%;
+  transition: width 0.3s ease, background-color 0.3s ease;
+  border-radius: 4px;
+}
+
+.message {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+  margin: 0;
+  margin-bottom: 8px;
+}
+
+.frameInfo {
+  text-align: center;
+  font-size: 12px;
+  color: #999;
+  margin-top: 8px;
+}
