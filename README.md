@@ -88,4 +88,4 @@ npm run dev
 
 ## 관련 레포
 
-- 백엔드: 별도 레포 운영
+- 백엔드: https://github.com/kingcat47/privyface-backend
