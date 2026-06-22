@@ -12,6 +12,13 @@ dist
 dist-ssr
 *.local
 
+# Circom build artifacts
+*.sym
+*.r1cs
+*.wasm
+*.zkey
+*.ptau
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
