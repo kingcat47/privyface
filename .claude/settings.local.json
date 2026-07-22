@@ -1,0 +1,42 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p src/lib/zkp/circom)",
+      "Bash(touch src/lib/zkp/circom/.gitkeep)",
+      "Bash(circom --version)",
+      "Bash(snarkjs --version)",
+      "Bash(mkdir -p circom/build)",
+      "Bash(circom circom/circuits/face-verification.circom --r1cs --wasm --sym -o circom/build/)",
+      "Bash(rustc --version)",
+      "Bash(cargo --version)",
+      "Bash(rustup default:*)",
+      "Read(//c/Users/leetaegyeom/Desktop/circom_src/**)",
+      "Bash(cargo build:*)",
+      "Bash(\"C:\\\\Users\\\\leetaegyeom\\\\Desktop\\\\circom_src\\\\target\\\\release\\\\circom\" circom/circuits/face-verification.circom --r1cs --wasm --sym -o circom/build/)",
+      "Bash(\"C:\\\\Users\\\\leetaegyeom\\\\Desktop\\\\circom_src\\\\target\\\\release\\\\circom\" circom/circuits/face-verification.circom --r1cs --wasm --sym -o circom/build/ -l node_modules)",
+      "Bash(npm install:*)",
+      "Bash(\"C:\\\\Users\\\\leetaegyeom\\\\Desktop\\\\circom_src\\\\target\\\\release\\\\circom\" circom/circuits/face-verification.circom --r1cs --wasm --sym -o circom/build/ -l .)",
+      "Bash(npx snarkjs:*)",
+      "Bash(mkdir -p \"C:\\\\Users\\\\leetaegyeom\\\\Desktop\\\\privyface_web\\\\public\\\\circuits\")",
+      "Bash(cp \"C:\\\\Users\\\\leetaegyeom\\\\Desktop\\\\privyface_web\\\\circom\\\\build\\\\face-verification_js\\\\face-verification.wasm\" \"C:\\\\Users\\\\leetaegyeom\\\\Desktop\\\\privyface_web\\\\public\\\\circuits\\\\face-verification.wasm\")",
+      "Bash(cp \"C:\\\\Users\\\\leetaegyeom\\\\Desktop\\\\privyface_web\\\\circom\\\\build\\\\circuit_final.zkey\" \"C:\\\\Users\\\\leetaegyeom\\\\Desktop\\\\privyface_web\\\\public\\\\circuits\\\\face-verification.zkey\")",
+      "Bash(cp \"C:\\\\Users\\\\leetaegyeom\\\\Desktop\\\\privyface_web\\\\circom\\\\build\\\\verification_key.json\" \"C:\\\\Users\\\\leetaegyeom\\\\Desktop\\\\privyface_web\\\\public\\\\circuits\\\\verification_key.json\")",
+      "Bash(npx tsc:*)",
+      "Bash(npx vite:*)",
+      "Bash(node scripts/rebuild-merkle.mjs)",
+      "Bash(node -e \"require\\(''snarkjs''\\); require\\(''circomlibjs''\\); console.log\\(''OK''\\)\")",
+      "Bash(npx ts-node:*)",
+      "Bash(for f:*)",
+      "Bash(do echo:*)",
+      "Read(//c/Users/leetaegyeom/Desktop/privyface_web/**)",
+      "Bash(done)",
+      "mcp__claude_ai_Notion__notion-fetch",
+      "mcp__claude_ai_Notion__notion-update-page",
+      "WebSearch",
+      "mcp__claude_ai_Notion__notion-create-pages",
+      "Bash(mkdir -p \"C:/Users/leetaegyeom/Desktop/zkpj/circuits\")",
+      "Bash(cp \"C:/Users/leetaegyeom/Desktop/privyface_web/public/circuits/verification_key.json\" \"C:/Users/leetaegyeom/Desktop/zkpj/circuits/verification_key.json\")",
+      "Bash(cd:*)"
+    ]
+  }
+}
