@@ -89,7 +89,9 @@ export class IdentityManager {
     // 모듈 레벨 캐시를 사용하여 인스턴스가 새로 생성되어도 컴파일 결과 재사용
     if (!cachedVerificationKey) {
       console.log("Face Verification Program 컴파일 중...");
+      console.time("[o1js] compile 시간");
       const { verificationKey } = await FaceVerificationProgram.compile();
+      console.timeEnd("[o1js] compile 시간");
       cachedVerificationKey = verificationKey;
       console.log("컴파일 완료 (캐시에 저장됨)");
 
@@ -128,12 +130,14 @@ export class IdentityManager {
 
     // 5. Proof 생성
     console.log("Proof 생성 중...");
+    console.time("[o1js] proveMatch 시간");
     const proofResult = await FaceVerificationProgram.proveMatch(
       publicInput,
       govFeatures,
       usrFeatures,
       thresholdField
     );
+    console.timeEnd("[o1js] proveMatch 시간");
 
     // 6. Proof를 JSON으로 직렬화 (o1js 공식 방법)
     // proofResult는 { proof: Proof, auxiliaryOutput: undefined } 형태
