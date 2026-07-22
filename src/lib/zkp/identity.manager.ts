@@ -75,14 +75,10 @@ export class IdentityManager {
       throw new Error("얼굴이 일치하지 않습니다. (거리가 임계값을 초과했습니다)");
     }
 
-    // verification key를 런타임에 fetch해서 payload에 포함
-    // 백엔드가 별도로 파일을 가지고 있다면 이 필드는 생략 가능
-    const vkResponse = await fetch("/circuits/verification_key.json");
-    const verificationKey = await vkResponse.json();
-
     // 백엔드가 proof를 문자열로 기대함 (proof.substring() 호출)
     // o1js 시절과 동일하게 JSON.stringify로 직렬화해서 전송
-    return { proof: JSON.stringify(proof), publicSignals, verificationKey };
+    // verificationKey는 백엔드 로컬 파일에서 로드 → 클라이언트에서 전송하지 않음
+    return { proof: JSON.stringify(proof), publicSignals };
   }
 
   /**

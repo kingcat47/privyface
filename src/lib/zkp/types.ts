@@ -40,8 +40,6 @@ export interface ServerProofPayload {
     proof: string;
     /** 회로의 public input 값들 (root, threshold) */
     publicSignals: string[];
-    /** verification key (백엔드 검증용) */
-    verificationKey: object;
   };
 }
 
