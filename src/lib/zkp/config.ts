@@ -19,4 +19,4 @@
  * - 관대한 검증: 1,000,000
  * - 매우 관대한 검증: 2,000,000
  */
-export const DEFAULT_SIMILARITY_THRESHOLD = 3000000;
+export const DEFAULT_SIMILARITY_THRESHOLD = 800000;
