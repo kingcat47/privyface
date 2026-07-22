@@ -29,19 +29,19 @@ export interface FaceSimilarityResult {
 }
 
 /**
- * 서버로 전송할 최종 Proof 형식
+ * 서버로 전송할 최종 Proof 형식 (snarkjs groth16 기준)
  */
 export interface ServerProofPayload {
   /** 머클 트리 증명 */
   merkleProof: MerkleProofData;
   /** 얼굴 유사도 ZKP 증명 */
   faceZkProof: {
-    /** o1js Proof (base64 인코딩된 문자열) */
+    /** groth16 proof (JSON.stringify된 문자열, 백엔드 호환용) */
     proof: string;
-    /** Public Input 배열 */
-    publicInput: string[];
-    /** Verification Key (JSON 문자열) */
-    verificationKey: string;
+    /** 회로의 public input 값들 (root, threshold) */
+    publicSignals: string[];
+    /** verification key (백엔드 검증용) */
+    verificationKey: object;
   };
 }
 

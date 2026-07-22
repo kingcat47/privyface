@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import type {
   FaceFeatures,
   PixelLandmark,
@@ -18,12 +18,14 @@ interface VideoStreamProps {
   }) => void;
   onProgressChange?: (progress: ScanProgress) => void;
   onError?: (error: Error) => void;
+  overlayChildren?: ReactNode;
 }
 
 export function VideoStream({
   onFeaturesExtracted,
   onProgressChange,
   onError,
+  overlayChildren,
 }: VideoStreamProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -331,6 +333,8 @@ export function VideoStream({
           muted
         />
         <canvas ref={canvasRef} className={styles.canvas} />
+        <div className={styles.faceGuide} />
+        {overlayChildren}
       </div>
     </div>
   );
