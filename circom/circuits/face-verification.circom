@@ -14,6 +14,7 @@ pragma circom 2.0.0;
 
 include "node_modules/circomlib/circuits/poseidon.circom";
 include "node_modules/circomlib/circuits/comparators.circom";
+include "node_modules/circomlib/circuits/bitify.circom";
 
 // ============================================================
 // [circom 문법 설명]
@@ -75,14 +76,29 @@ template FaceVerification(n_features, levels) {
     // var는 루프 안에서 써도 됨 (컴파일 타임 변수라서).
     // ============================================================
 
-    signal diff[n_features];   // 각 특징값의 차이
-    signal square[n_features]; // 차이의 제곱
-    var dist_sum = 0;          // 제곱합 (var = 컴파일 타임 누산)
+    // [보안 수정] 특징값 범위 제약 (16비트 이내 강제)
+    // private input은 공격자가 아무 값이나 넣을 수 있으므로
+    // 범위를 제한하지 않으면 유한체 랩어라운드로 거리 검사를 우회할 수 있음
+    component rangeCheckUser[n_features];
+    component rangeCheckGov[n_features];
+    for (var i = 0; i < n_features; i++) {
+        rangeCheckUser[i] = Num2Bits(16);
+        rangeCheckUser[i].in <== userFeatures[i];
+        rangeCheckGov[i] = Num2Bits(16);
+        rangeCheckGov[i].in <== governmentFeatures[i];
+    }
+
+    // 특징값 차이 계산
+    // diff가 음수일 때 유한체에서 p-k가 되지만, 제곱하면 k²와 동일하므로 거리 계산은 정상 작동
+    // 범위 제약이 위에서 걸려있어 diff² 최대값 = 65535² = ~4×10⁹, 10개 합쳐도 ~4×10¹⁰ → 랩어라운드 불가
+    signal diff[n_features];
+    signal square[n_features];
+    var dist_sum = 0;
 
     for (var i = 0; i < n_features; i++) {
         diff[i]   <== userFeatures[i] - governmentFeatures[i];
         square[i] <== diff[i] * diff[i];
-        dist_sum  += square[i]; // var이므로 += 가능 (signal은 불가)
+        dist_sum  += square[i];
     }
 
     // ================================================================
@@ -101,8 +117,11 @@ template FaceVerification(n_features, levels) {
     //   → 이 조건이 안 맞으면 proof 생성 자체가 실패함
     // ============================================================
 
-    component lt = LessThan(252);
-    lt.in[0] <== dist_sum;   // 실제 거리
+    // [보안 수정] LessThan(252) → LessThan(40)
+    // 특징값이 16비트로 제한되므로 dist_sum 최대값 ≈ 4×10¹⁰ < 2⁴⁰
+    // 252비트는 과도하고, 40비트면 충분. 제약 수도 253 → 41개로 감소
+    component lt = LessThan(40);
+    lt.in[0] <== dist_sum;   // 실제 거리 (제곱합)
     lt.in[1] <== threshold;  // 허용 임계값
     lt.out === 1;             // 거리 < 임계값 이어야만 proof 생성 가능
 
@@ -123,9 +142,6 @@ template FaceVerification(n_features, levels) {
     component leafHasher = Poseidon(n_features);
 
     for (var i = 0; i < n_features; i++) {
-        // [버그 수정] 기존 코드는 userFeatures를 해싱했으나 틀림.
-        // 머클 트리는 governmentFeatures 해시로 구성되어 있으므로
-        // governmentFeatures를 해싱해야 트리 루트와 일치함.
         leafHasher.inputs[i] <== governmentFeatures[i];
     }
 
@@ -171,6 +187,11 @@ template FaceVerification(n_features, levels) {
     currentHash[0] <== leaf;
 
     for (var i = 0; i < levels; i++) {
+        // [보안 수정] pathIndices가 반드시 0 또는 1이어야 함을 강제
+        // 이 제약이 없으면 공격자가 임의의 값을 넣어 멀티플렉서를 조작하여
+        // 트리에 없는 리프로도 루트를 맞출 수 있음
+        pathIndices[i] * (pathIndices[i] - 1) === 0;
+
         hashers[i] = Poseidon(2);
 
         // 멀티플렉서: pathIndices에 따라 left/right 결정
